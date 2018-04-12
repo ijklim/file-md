@@ -5,7 +5,9 @@
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
 
-  <title>File Metadata Microservice v.1</title>
+  <title>File Metadata Microservice v.2</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 
   <style>
     html {
@@ -27,13 +29,39 @@
 </head>
 
 <body>
-  <h1>Welcome to File Metadata Microservice</h1>
+  <div id="app" class="container">
+    <div class="row">
+      <div class="col-12 col-md-8 mx-auto my-3">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            File Metadata Microservice
+          </div>
 
-  <form>
-
-  </form>
-
+          <div class="card-body">
+            <form action="/api/fileanalyse" enctype="multipart/form-data" method="post">
+              <div class="form-group">
+                <label for="fileUpload">Select file to upload:</label>
+                <input type="file" class="form-control-file" id="fileUpload">
+                <button type="button" class="btn btn-success my-2" @click.prevent="onSubmit">Upload</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src='https://cdn.jsdelivr.net/npm/vue'></script>
   <script>
+    new Vue({
+      el: '#app',
+      methods: {
+        onSubmit () {
+          fetch('/api/fileanalyse')
+          console.log('coming soon')
+        }
+      }
+    });
   </script>
 </body>
 

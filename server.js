@@ -24,33 +24,22 @@ if (!process.env.DISABLE_XORIGIN) {
 
 
 /**
- * Image Search feature, v1.0.0
+ * File Analyse feature, v1.0.0
  */
-let imageSearch;
+let fileAnalyse;
 app.use(function(req, res, next) {
-  if (imageSearch) return next();
+  if (fileAnalyse) return next();
 
-  let ImageSearch = require('./api/ImageSearch');
-  imageSearch = new ImageSearch(req);
+  let FileAnalyse = require('./api/FileAnalyse');
+  fileAnalyse = new FileAnalyse(req);
   return next();
 });
 
-// Note: * allows / in param
-app.get('/api/imagesearch/*', function(req, res) {
-  imageSearch.search({
-    apiKey: process.env.PIXABAY_API_KEY,
-    offset: req.query.offset,
-    searchTerm: req.params[0],
-  })
-  .then(json => res.json(json))
-  .catch(error => {
-    console.log('Error encountered accessing /api/imagesearch/: ', error);
+app.post('/api/fileanalyse', function(req, res) {
+  console.log('todo', 'analyse file')
+  res.json({
+    message: 'Coming soon',
   });
-});
-
-// Search history
-app.get('/api/latest/imagesearch/', function(req, res) {
-  res.json(imageSearch.history());
 });
 
 
