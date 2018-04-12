@@ -7,6 +7,8 @@
 
 var fs = require('fs');
 var express = require('express');
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' });
 var app = express();
 
 if (!process.env.DISABLE_XORIGIN) {
@@ -14,7 +16,7 @@ if (!process.env.DISABLE_XORIGIN) {
     var allowedOrigins = ['https://narrow-plane.gomix.me', 'https://www.freecodecamp.com'];
     var origin = req.headers.origin || '*';
     if(!process.env.XORIG_RESTRICT || allowedOrigins.indexOf(origin) > -1){
-         console.log(origin);
+         console.log('origin: ', origin);
          res.setHeader('Access-Control-Allow-Origin', origin);
          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     }
@@ -35,11 +37,14 @@ app.use(function(req, res, next) {
   return next();
 });
 
-app.post('/api/fileanalyse', function(req, res) {
-  console.log('todo', 'analyse file')
-  res.json({
-    message: 'Coming soon',
-  });
+app.post('/api/fileanalyse', upload.single('fileUpload'), function(req, res, next) {
+  if (!req.file) {
+    res.json(JSON.stringify({
+      error: 'Please select a file',
+    }));
+  }
+
+  res.json(fileAnalyse.analyse(req.file));
 });
 
 

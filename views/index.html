@@ -41,7 +41,7 @@
             <form action="/api/fileanalyse" enctype="multipart/form-data" method="post">
               <div class="form-group">
                 <label for="fileUpload">Select file to upload:</label>
-                <input type="file" class="form-control-file" id="fileUpload">
+                <input type="file" class="form-control-file" id="fileUpload" v-model="fileUpload">
                 <button type="button" class="btn btn-success my-2" @click.prevent="onSubmit">Upload</button>
               </div>
             </form>
@@ -55,10 +55,33 @@
   <script>
     new Vue({
       el: '#app',
+      data: {
+        fileUpload: '',
+      },
       methods: {
         onSubmit () {
-          fetch('/api/fileanalyse')
-          console.log('coming soon')
+          if (!this.fileUpload) return;
+
+          let formData = new FormData();
+          formData.append('fileUpload', document.querySelector("input[type='file']").files[0]);
+
+          let url = '/api/fileanalyse';
+          let options = {
+            body: formData,
+            
+            // *GET, POST, PUT, DELETE, etc.
+            method: 'POST',
+          };
+          
+          fetch(url, options)
+            .then(response => response.json())
+            .then(json => {
+              alert(`File: ${json.originalFileName}\nFile size: ${json.fileSize}`);
+            })
+            .catch(error => {
+              console.log('Error encountered:');
+              console.table(error);
+            });
         }
       }
     });
