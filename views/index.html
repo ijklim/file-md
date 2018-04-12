@@ -5,7 +5,7 @@
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
 
-  <title>File Metadata Microservice v.2</title>
+  <title>File Metadata Microservice v.4</title>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 
@@ -38,11 +38,11 @@
           </div>
 
           <div class="card-body">
-            <form action="/api/fileanalyse" enctype="multipart/form-data" method="post">
+            <form @submit.prevent="onSubmit" enctype="multipart/form-data" method="post">
               <div class="form-group">
                 <label for="fileUpload">Select file to upload:</label>
-                <input type="file" class="form-control-file" id="fileUpload" v-model="fileUpload">
-                <button type="button" class="btn btn-success my-2" @click.prevent="onSubmit">Upload</button>
+                <input type="file" class="form-control-file" id="fileUpload" required>
+                <button type="submit" class="btn btn-success my-2">Upload</button>
               </div>
             </form>
           </div>
@@ -51,17 +51,12 @@
     </div>
   </div>
   
-  <script src='https://cdn.jsdelivr.net/npm/vue'></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script>
     new Vue({
       el: '#app',
-      data: {
-        fileUpload: '',
-      },
       methods: {
         onSubmit () {
-          if (!this.fileUpload) return;
-
           let formData = new FormData();
           formData.append('fileUpload', document.querySelector("input[type='file']").files[0]);
 
@@ -79,8 +74,7 @@
               alert(`File: ${json.originalFileName}\nFile size: ${json.fileSize}`);
             })
             .catch(error => {
-              console.log('Error encountered:');
-              console.table(error);
+              console.log('Error encountered:', error);
             });
         }
       }

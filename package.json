@@ -1,6 +1,6 @@
 {
-	"name": "img-seek",
-	"version": "1.0.0",
+	"name": "file-md",
+	"version": "1.0.1",
 	"description": "File Metadata Microservice, a freeCodeCamp project",
 	"author": "Ivan Lim <aimprove@gmail.com>",
 	"dependencies": {
